@@ -54,7 +54,6 @@ public class Game extends BasicGame {
 			p.sendX(n);
 			p.sendY(n);
 			n.sendKeepAlive(1000);
-			n.checkConnection();
 		}
 		for (MPPlayer mpp : players.values()) {
 			mpp.tick(gc);

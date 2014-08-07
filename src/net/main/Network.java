@@ -49,17 +49,7 @@ public class Network extends Listener {
 	}
 	
 	public void sendKeepAlive(int time){
-		c.setKeepAliveTCP(time);
-	}
-	
-	public void checkConnection(){
-		if(!c.isConnected()){
-			try {
-				start();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
+		c.setKeepAliveTCP(time*1000);
 	}
 
 	private void reconect() {

@@ -17,6 +17,7 @@ public class Player extends Rectangle {
 	float x, y, netX, netY;
 	int id;
 	String name;
+	Timer send = new Timer(0.1,this);
 
 	public Player(float x, float y, String name) {
 		super(x, y, 40, 40);
@@ -24,25 +25,31 @@ public class Player extends Rectangle {
 		this.y = y;
 		id = new Random().nextInt() >> 16;
 		this.name = name;
+		send.start();
 	}
 
 	public void sendX(Network n) {
-		if (netX != x) {
-			netX = x;
-			PlayerXUpdatePacket p = new PlayerXUpdatePacket();
-			p.x = netX;
-			p.id = id;
-			n.c.sendTCP(p);
+		if (send.Ring()) {
+			if (netX != x) {
+				netX = x;
+				PlayerXUpdatePacket p = new PlayerXUpdatePacket();
+				p.x = netX;
+				p.id = id;
+				n.c.sendTCP(p);
+			}
 		}
 	}
 
 	public void sendY(Network n) {
-		if (netY != y) {
-			netY = y;
-			PlayerYUpdatePacket p = new PlayerYUpdatePacket();
-			p.y = netY;
-			p.id = id;
-			n.c.sendTCP(p);
+		if (send.Ring()) {
+			if (netY != y) {
+				netY = y;
+				PlayerYUpdatePacket p = new PlayerYUpdatePacket();
+				p.y = netY;
+				p.id = id;
+				n.c.sendTCP(p);
+				System.out.println("sent");
+			}
 		}
 	}
 
@@ -56,7 +63,7 @@ public class Player extends Rectangle {
 	}
 
 	public void tick(GameContainer gc) {
-		gc.getInput();
+		send.tick();
 		if (gc.getInput().isKeyDown(Input.KEY_W)) {
 			y -= 3;
 		}
