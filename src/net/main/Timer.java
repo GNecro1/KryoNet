@@ -5,12 +5,9 @@ public class Timer {
 	public long miliSeconds, targetTime;
 	public long now;
 
-	public boolean done = false;
+	private boolean done = false;
 	private boolean start = false;
-	private Player p;
-
-	public Timer(double sec, Player p) {
-		this.p = p;
+	public Timer(double sec) {
 		miliSeconds = (long) (sec * 1000);
 
 	}
